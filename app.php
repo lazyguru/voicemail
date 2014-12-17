@@ -28,7 +28,7 @@ $app['sendgrid'] = function ($app) {
 $app->post("/voice", function (Request $request, Application $app) {
 
     $twiml = new Twiml;
-    $twiml->say("Thanks for calling That Podcast! Please leave a message after the beep, pressing any key when you are done. Please be sure to leave an email address so we can contact you.");
+    $twiml->say("You have reached Joe Constant. Please leave a message after the beep, pressing any key when you are done.");
     $twiml->record([
         'maxLength' => 120,
         'action' => '/recordings',
@@ -61,7 +61,7 @@ $app->post("/recordings", function (Request $request, Application $app) {
     }
 
     $twiml = new Twiml;
-    $twiml->say("Thanks for leaving a message, you're awesome.");
+    $twiml->say("Thank you for leaving a message.");
     $twiml->hangup();
 
     return new Response((string) $twiml);
