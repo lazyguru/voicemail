@@ -58,7 +58,7 @@ $app->post("/recordings", function (Request $request, Application $app) {
         ->setFrom($to)
         ->setSubject("New Voicemail!")
         ->setText(sprintf(
-            "SID: %s\nCaller: %s\nDuration: %s\nURL: %s\nText: %s\n",
+            "SID: %s\nCaller: %s\nDuration: %s\nURL: %s\nText:\n%s\n",
             $request->get("CallSid"),
             $request->get("Caller"),
             $request->get("RecordingDuration"),
