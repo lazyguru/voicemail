@@ -1,11 +1,11 @@
 <?php
 
+use SendGrid\Email;
 use Services_Twilio_Twiml as Twiml;
 use Silex\Application;
 use Silex\Provider\MonologServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use SendGrid\Email;
 
 require 'vendor/autoload.php';
 
@@ -36,7 +36,7 @@ $app->post("/voice", function (Request $request, Application $app) {
         'transcribe' => true,
     ]);
 
-    return new Response((string) $twiml);
+    return new Response((string)$twiml);
 });
 
 $app->post("/done", function (Request $request, Application $app) {
