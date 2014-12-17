@@ -48,8 +48,9 @@ $app->post("/recordings", function (Request $request, Application $app) {
         ->setFrom($to)
         ->setSubject("New Voicemail!")
         ->setText(sprintf(
-            "SID: %s\nDuration: %s\nURL: %s\n",
+            "SID: %s\nCaller: %s\nDuration: %s\nURL: %s\n",
             $request->get("CallSid"),
+            $request->get("Caller"),
             $request->get("RecordingDuration"),
             $request->get("RecordingUrl")
         ));
@@ -61,7 +62,7 @@ $app->post("/recordings", function (Request $request, Application $app) {
     }
 
     $twiml = new Twiml;
-    $twiml->say("Thank you for leaving a message.");
+    $twiml->say("Thank you, good bye.");
     $twiml->hangup();
 
     return new Response((string) $twiml);
