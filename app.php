@@ -31,10 +31,20 @@ $app->post("/voice", function (Request $request, Application $app) {
     $twiml->say("You have reached Joe Constant. Please leave a message after the beep, pressing any key when you are done.");
     $twiml->record([
         'maxLength' => 120,
-        'action' => '/recordings',
+        'action' => '/done',
+        'transcribeCallback' => '/recordings',
+        'transcribe' => true,
     ]);
 
     return new Response((string) $twiml);
+});
+
+$app->post("/done", function (Request $request, Application $app) {
+    $twiml = new Twiml;
+    $twiml->say("Thank you, good bye.");
+    $twiml->hangup();
+
+    return new Response((string)$twiml);
 });
 
 $app->post("/recordings", function (Request $request, Application $app) {
@@ -48,11 +58,12 @@ $app->post("/recordings", function (Request $request, Application $app) {
         ->setFrom($to)
         ->setSubject("New Voicemail!")
         ->setText(sprintf(
-            "SID: %s\nCaller: %s\nDuration: %s\nURL: %s\n",
+            "SID: %s\nCaller: %s\nDuration: %s\nURL: %s\nText: %s\n",
             $request->get("CallSid"),
             $request->get("Caller"),
             $request->get("RecordingDuration"),
-            $request->get("RecordingUrl")
+            $request->get("RecordingUrl"),
+            $request->get("TranscriptionText")
         ));
 
     $rsp = $app['sendgrid']->send($email);
@@ -61,11 +72,6 @@ $app->post("/recordings", function (Request $request, Application $app) {
         $app['logger']->error(json_encode($rsp));
     }
 
-    $twiml = new Twiml;
-    $twiml->say("Thank you, good bye.");
-    $twiml->hangup();
-
-    return new Response((string) $twiml);
 });
 
 return $app;
