@@ -6,8 +6,8 @@
         "twilio",
         "voicemail"
     ],
-    "website": "http://thatpodcast.io/",
-    "repository": "https://github.com/thatpodcast/voicemail",
+    "website": "http://joeconstant.me/",
+    "repository": "https://github.com/lazyguru/voicemail",
     "env": {
         "VOICEMAIL_EMAIL_ADDRESS": {
             "description": "The e-mail address to send notifications about new voice messages to."
